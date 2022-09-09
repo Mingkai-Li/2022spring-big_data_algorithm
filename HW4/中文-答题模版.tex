@@ -1,0 +1,147 @@
+%!TEX program = xelatex
+\documentclass[a4paper,10pt]{article}
+
+\usepackage[table]{xcolor}
+\usepackage[ruled]{algorithm2e}
+
+\usepackage{graphicx}
+\usepackage{fullpage}
+\usepackage{amsmath,boxedminipage}
+\usepackage{amssymb,amsthm}
+\usepackage[totalwidth=166mm,totalheight=240mm]{geometry}
+\usepackage{framed}
+\usepackage{hyperref}
+
+%-- coding: UTF-8 --
+\usepackage{ctex}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+
+\parindent0mm
+%\pagestyle{empty}
+
+
+\usepackage{tikz}
+\usetikzlibrary{arrows}
+
+
+\newcommand{\nop}[1]{}
+
+\newcounter{aufgc}
+\newenvironment{exercise}[1]%
+{\refstepcounter{aufgc}\textbf{Exercise \arabic{aufgc}} \emph{#1}\\}
+{
+	
+	\hrulefill\medskip}%
+
+\renewcommand{\labelenumi}{(\alph{enumi})}
+
+\providecommand{\abs}[1]{\lvert#1\rvert} \providecommand{\norm}[1]{\lVert#1\rVert}
+\providecommand{\vt}[1]{\mathbf{\mathrm{#1}}}
+
+\newcommand{\E}{\mathrm{E}}
+
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\rank}{\mathrm{rank}}
+\begin{document}
+	
+	\vspace{-2em}
+	\begin{minipage}[b]{0.58\textwidth}
+		\large 
+中国科学技术大学\\
+计算机科学与技术学院
+	\end{minipage}
+	
+	\hrulefill
+	
+	%\vspace{0.2cm}
+	\begin{center}
+		{\large \bf 《大数据算法》作业\\[0.5mm]
+			2022年春}\\
+		\textcolor{red}{截止日期：2022年5月6日23:59}
+		% \bigskip
+		
+	\end{center}
+	%\vspace{0.1cm}
+	
+	
+	
+%注：在下面习题中，[BHK]指的是参考文献``Foundations of Data Science'' \url{https://www.cs.cornell.edu/jeh/book.pdf}。	
+	
+	
+	
+	
+	
+	%\newpage
+	\hrulefill\medskip
+	
+	\begin{exercise}{20分}
+	在\textsc{CountSketch}算法及其分析中，我们证明了如果选择$w>3k^2$，$d=\Omega(\log n)$， 那么以$1-\frac{1}{n}$的概率，对于任意$i\in [n]$，$\abs{\tilde{x}_i-x_i}\leq \frac{\norm{x}_2}{k}$。这个估计有可能在某些情况是比较坏的，例如当$\norm{x}_2$的值主要集中在少数几个坐标上的时候。
+	
+	
+	对于固定的整数$\ell>0$，对于任意$i\in [n]$，定义向量$y^{(i)}\in \mathbb{R}^n$如下：
+	\begin{equation*}
+		y^{(i)}_j=\begin{cases}
+			0 & \text{如果$j=i$或者$j$是$x$中（在绝对值意义下）最大的$\ell$个值所对应的坐标之一},\\
+			x_j & \text{否则}
+		\end{cases}
+	\end{equation*}
+	证明对于$\ell=k^2$，如果$w=6k^2$，$d=\Omega(\log n)$，那么以$1-\frac{1}{n}$的概率，对于任意$i\in [n]$，$\abs{\tilde{x}_i-x_i}\leq \frac{\norm{y^{(i)}}_2}{k}$。
+	
+\end{exercise}
+	
+	\begin{exercise}{20分}
+假设$k_1,k_2$是两个核（kernel）函数。证明：
+\begin{enumerate}
+\item 对于任意常数$c\geq 0$，$c k_1$是一个核函数。
+\item 对于任意标量(scalar)函数 $f$，$k_3(\vt{x},\vt{y})=f(\vt{x})f(\vt{y})\cdot k_1(\vt{x},\vt{y})$是一个核函数。
+\item $k_1+k_2$是一个核函数。
+\item $k_1\cdot k_2$是一个核函数。
+\end{enumerate}
+	\end{exercise}
+	
+	%\hrulefill
+	
+	\vspace{0.2cm}
+	\begin{exercise}{20分}
+令$X=\mathbb{R}^d$, 并定义$\mathcal{H}$为$X$上的所有axis-parallel boxes所构成的集合。具体来说，$\mathcal{H}=\{h_{\vt{a},\vt{b}}\mid \vt{a},\vt{b}\in X\}$。对于$\vt{x}\in X$，$h_{\vt{a},\vt{b}}(\vt{x})$定义如下：
+
+\begin{equation*}
+	h_{\vt{a},\vt{b}}(\vt{x})=\begin{cases}
+		1 & \text{如果$a_i\leq x_i\leq b_i$对于任意的$i=1,\dots,d$},\\
+		-1 & \text{否则。}
+	\end{cases}
+\end{equation*}
+选择一个可以被$\mathcal{H}$打散(shatter)的点集$V$，并
+\begin{enumerate}
+\item 通过证明$V$是可以被$\mathcal{H}$打散的，来证明$\mathcal{H}$的VC-维（VC-dimension）至少为$|V|$；
+\item 通过证明不存在大小为$|V|+1$的点集是可以被$\mathcal{H}$打散的，来证明$\mathcal{H}$的VC-维至多为$|V|$。
+\end{enumerate}
+	\end{exercise}
+	
+	\vspace{0.2cm}
+	\begin{exercise}{20分}
+一个点集$S\subseteq \mathbb{R}^d$被称为是``可以被一个间隔（margin）为$\gamma$的线性分割子（linear  separator）所打散的''，如果对于$S$中所有点的任意一个分类标号（labelling）都是可以被某个间隔为$\gamma$的线性分割子来实现的。证明在单位球中，不存在一个大小为$\frac{1}{\gamma^2}+1$且可以被一个间隔为$\gamma$的线性分割子所打散的集合。
+
+\textbf{提示：} 考虑感知机(Perceptron)算法；尝试反证法。
+	\end{exercise}
+	
+	\begin{exercise}{20分}
+令实例空间(instance space)$X=\{0,1\}^d$，并令$\mathcal{H}$为所有的3-合取范式公式(3-CNF formula)所构成的类。具体来说，考虑所有的由至多3个文字(literal)的析取（即OR）所构成的逻辑子句(clause)，$\mathcal{H}$是所有的可以被描述成这样的子句的合取（conjunction）形式的概念（concepts）构成的集合。例如，目标概念$c^*$可能为$(x_1 \lor \bar{x_2}\lor x_3)\land (x_2\lor x_4)\land (\bar{x}_1\lor x_3)\land (x_2\lor x_3\lor x_4)$。假设我们在PAC-learning的设定中：训练数据中的样本(examples)是根据某个分布$D$抽样出来的，它们是根据某个3-合取范式公式$c^*$来被标号的。
+\begin{enumerate}
+\item 给出样本个数m的一个下界，保证以至少$1-\delta$的概率，对于所有的与训练数据一致(consistent)的3-合取范式公式，其错误都不超过$\varepsilon$，这里的错误是相对应于分布$D$而言的。
+\item 假设存在一个3-合取范式公式与训练数据一致，给出一个多项式时间的算法来找到一个这样的公式。
+\end{enumerate}
+	\end{exercise}
+	
+
+	
+
+	
+\end{document}
+
+%%% Local Variables:ƒ
+%%% mode: latex
+%%% TeX-master: t
+%%% End:

@@ -1,0 +1,169 @@
+%!TEX program = xelatex
+\documentclass[a4paper,10pt]{article}
+
+\usepackage[table]{xcolor}
+\usepackage[ruled]{algorithm2e}
+
+\usepackage{graphicx}
+\usepackage{fullpage}
+\usepackage{amsmath,boxedminipage}
+\usepackage{amssymb,amsthm}
+\usepackage[totalwidth=166mm,totalheight=240mm]{geometry}
+\usepackage{framed}
+
+%-- coding: UTF-8 --
+%\usepackage{ctex}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+
+\parindent0mm
+%\pagestyle{empty}
+
+
+\usepackage{tikz}
+\usetikzlibrary{arrows}
+
+
+\newcommand{\nop}[1]{}
+
+\newcounter{aufgc}
+\newenvironment{exercise}[1]%
+{\refstepcounter{aufgc}\textbf{Exercise \arabic{aufgc}} \emph{#1}\\}
+{
+
+  \hrulefill\medskip}%
+
+\renewcommand{\labelenumi}{(\alph{enumi})}
+
+\providecommand{\abs}[1]{\lvert#1\rvert} \providecommand{\norm}[1]{\lVert#1\rVert}
+
+\newcommand{\E}{\mathrm{E}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\rank}{\mathrm{rank}}
+\begin{document}
+
+\vspace{-2em}
+\begin{minipage}[b]{0.58\textwidth}
+\large 
+School of Computer Science and Technology\\
+University of Science and Technology of China
+\end{minipage}
+
+\hrulefill
+
+\vspace{0.1cm}
+\begin{center}
+  {\large \bf \textcolor{red}{Marked} Exercises for \\[1mm]
+Algorithms for Big Data\\[0.5mm]
+2022 Spring}\\
+\textcolor{red}{Due 27 March 2022 at 23:59}
+ \bigskip
+
+\end{center}
+\vspace{0.1cm}
+
+
+
+
+
+
+
+
+
+%\newpage
+\hrulefill\medskip
+
+\begin{exercise}{10 points}
+Let $\sum_{i=1}^{r}\sigma_i u_iv_i^T$ be the SVD of $A$, where $A\in \mathbb{R}^{n\times d}$. Show that $|u_1^T A|=\sigma_1$ and $|u_1^T A|=\max_{\norm{u}=1}\norm{u^TA}$, where $\norm{x}=\sqrt{\sum_{i=1}^d x_i^2}$ for a vector $x\in \mathbb{R}^d$.
+\end{exercise}
+
+%\hrulefill
+
+\vspace{0.2cm}
+\begin{exercise}{20 points}
+Let $\sum_{i=1}^r\sigma_iu_i v_i^T$ be the SVD of a rank $r$ matrix $A$. Let $A_k=\sum_{i=1}^k\sigma_iu_i v_i^T$ be a rank $k$-approximation to $A$ for some $k<r$. Express the following quantities in terms of the singular values $\{\sigma_i, 1\leq i\leq r\}$.
+\begin{enumerate}
+\item $\norm{A_k}_F^2$
+\item $\norm{A_k}_2^2$
+\item $\norm{A-A_k}_F^2$
+\item $\norm{A-A_k}_2^2$
+\end{enumerate}
+\end{exercise}
+
+\vspace{0.2cm}
+\begin{exercise}{15 points}
+Let $k<d$. Let $U\in \mathbb{R}^{d\times k}$ be a random matrix such that its $(i,j)$-th entry is denoted as $u_{ij}$, where $\{u_{ij}\}$ are independent random variables such that 
+\begin{equation*}
+u_{ij}=\begin{cases}
+1 & \text{with probability $\frac12$},\\
+-1 & \text{with probability $\frac12$}
+\end{cases}
+\end{equation*}
+Now we use matrix $U$ as a random projection matrix. That is, for a (row) vector $a\in \mathbb{R}^d$, we map it to 
+\[
+f(a)=\frac{1}{\sqrt{k}} a U
+\]
+For each $j$ such that $1\leq j\leq k$, define $b_j= [f(a)]_j$, i.e., $b_j$ is the $j$-th entry of $f(a)$. 
+\begin{itemize}
+\item What is the expectation $\E[b_j]$?
+\item What is $\E[b_j^2]$?
+\item What is $\E[\norm{f(a)}^2]$?
+\end{itemize}
+
+
+\end{exercise}
+
+\begin{exercise}{15 points}
+In the class, we have seen an algorithm, denoted by $\mathcal{A}$, for the $(c,r)$-ANN problem with success probability at least $0.6$. That is, upon a queried vertex $x$ such that there exists a point $a^*$ in the set $\mathcal{P}$ with $d(x,a^*)\leq r$, the algorithm $\mathcal{A}$ outputs some $a\in \mathcal{P}$ with $d(x,a)\leq c\cdot r$ with probability at least $0.6$.
+
+Let $\delta\in (0,1)$. Using the above $\mathcal{A}$ as a subroutine, give a new algorithm $\mathcal{B}$ with success probability at least $1-\delta$. That is, for the above query vertex $x$, the algorithm $\mathcal{B}$ outputs some $a\in \mathcal{P}$ with $d(x,a)\leq c\cdot r$ with probability at least $1-\delta$. Your algorithm should use as little query time as possible. Explain the correctness of your algorithm and state its query time, assuming the query time of $\mathcal{A}$ is $T_{\mathcal{A}}$. 
+\end{exercise}
+
+\begin{exercise}{20 points}
+Let $\alpha\in (0,1]$. Suppose we change the (basic) Morris algorithm to the following:
+\begin{enumerate}
+\item Initialize $X\gets 0$
+\item For each update, increment $X$ by $1$ with probability $\frac{1}{(1+\alpha)^X}$
+\item For a query, output $\tilde{n}=\frac{(1+\alpha)^X-1}{\alpha}$.
+\end{enumerate}
+
+
+Let $X_n$ denote $X$ in the above algorithm after $n$ updates. Let $\tilde{n}=\frac{(1+\alpha)^{X_n}-1}{\alpha}$.
+\begin{itemize}
+\item Calculate $\E[\tilde{n}]$ and upper bound $\Var[\tilde{n}]$.
+\item Let $\epsilon,\delta\in (0,1)$. Based upon the above algorithm, give a new algorithm such that with probability at least $1-\delta$, it outputs an estimator $\tilde{n}$ such that $|\tilde{n}-n|\leq \epsilon n$. Explain the correctness and the space complexity (i.e., the number of used bits) of your algorithm. It suffices to give an algorithm with space complexity that is a polynomial function of $1/\delta$.
+\end{itemize}
+
+
+\end{exercise}
+
+\begin{exercise}{20 points}
+Consider a stream of $m$ integers $a_1,a_2,\dots,a_m$ such that each $a_i\in[n]=\{1,2,\dots,n\}$. We would like to estimate the \emph{median} of these numbers using small space. Formally, let $S=\{a_1,a_2,\dots,a_m\}$, and define $\rank(b)=|\{a\in S: a\leq b\}|$. For simplicity, suppose elements in $S$ are distinct, and $m$ is known to the algorithm. Given $\varepsilon,\delta\in (0,1)$, our goal is to find a number $b$ such that 
+\begin{eqnarray}
+\Pr[|\rank(b)-\frac{m}{2}|>\varepsilon m]<\delta. \label{eqn:estimator1}
+\end{eqnarray}
+
+Consider the following algorithm:
+
+\begin{framed}
+\begin{itemize}
+\item Maintain $t$ uniform samples from $S$ (e.g., by using Reservoir sampling)
+\item Output the median of these $t$ samples
+\end{itemize}
+\end{framed}
+Choose the smallest possible $t$ so that inequality (\ref{eqn:estimator1}) holds. Give an explanation of the correctness of the resulting algorithm and state its space complexity. 
+
+\vspace{1em}
+\textbf{Hint}: You can partition $S$ into $3$ groups: $S_L=\{a\in S: \rank(a)\leq m/2-\varepsilon m\}$, $S_M=\{a\in S: m/2-\varepsilon m\leq \rank(a)\leq m/2+\varepsilon m\}$, and $S_H=\{a\in S: \rank(a)\geq m/2+\varepsilon m\}$. Note that if less than $t/2$ elements from both $S_L$ and $S_H$ are present in the sample, then the median of the samples is a ``good'' estimator. 
+
+
+\end{exercise}
+
+
+\end{document}
+
+%%% Local Variables:ƒ
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
